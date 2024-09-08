@@ -1,30 +1,27 @@
-import React from 'react';
-import { Box, Container, TextField, Button, Typography } from '@mui/material';
+import React from "react";
+import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
+
+import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { Login } from '../services/LoginService';
-import { useNavigate } from 'react-router-dom';
+import { LoginWithGoogle } from "../services/LoginService";
 
-function LoginPage() {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState('');
-    const navigate = useNavigate();
-
-    const handleLogin = async () => {
+const GoogleLoginComponent: React.FC = () => {
+    const handleLoginSuccess = async (response: CredentialResponse) => {
         try {
-            setError('');
-            if (!email || !password) {
-                setError('Email/Password cannot be empty');
+            const idToken = response.credential;
+            if (!idToken) {
+                console.log('Login Failed');
                 return;
             }
 
-            var isSuccess = await Login(email, password);
+            var isSuccess = await LoginWithGoogle(idToken);
             if (isSuccess) {
-                navigate('/');
+                window.location.href = '/';
             }
         }
         catch (error) {
-            setError('Email/Password are wrong');
+           console.log('Login Failed');
+           console.log(error);
         }
     };
 
@@ -51,50 +48,25 @@ function LoginPage() {
                 </Typography>
                 <HorizontalBar />
 
-                <Logo src="logo192.png" alt="Logo" />
-
-                {/* Error Message */}
-                {error && (
-                <Typography variant="body1" color="error" align="center" gutterBottom>
-                    {error}
-                </Typography>
-                )}
+                <Logo src="logo48.jpeg" alt="Logo" />
 
                 {/* Login Form */}
-                <Typography variant="h5" gutterBottom>
-                    Login
-                </Typography>
-                <TextField
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <TextField
-                    label="Password"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    sx={{ mt: 2, height: '50px'}}
-                    onClick={handleLogin}
-                >
-                Login
-                </Button>
+                <div style={styles.container}>
+                    <GoogleOAuthProvider clientId="165746377172-46o8bj6i2v1eilrmkjhch9vv3a38rl4i.apps.googleusercontent.com">
+                        <div style={styles.buttonWrapper}>
+                            <GoogleLogin
+                                onSuccess={handleLoginSuccess}
+                                onError={() => {
+                                    console.log('Login Failed');
+                                }}
+                            />
+                        </div>
+                    </GoogleOAuthProvider>
+                </div>
             </Box>
         </Container>
     );
-}
+};
 
 const Logo = styled('img')({
     width: '300px',
@@ -109,4 +81,16 @@ const HorizontalBar = styled('div')({
     margin: '16px 0'
   });
 
-export default LoginPage;
+const styles = {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    buttonWrapper: {
+        transform: 'scale(1.5)',  // Adjust this to increase/decrease button size
+    },
+};
+
+export default GoogleLoginComponent;

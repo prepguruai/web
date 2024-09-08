@@ -5,7 +5,6 @@ import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import ContestPage from './pages/Contest';
 import ArticlePage from './pages/Article';
-import GoogleLoginComponent from './pages/LoginWithGoogle';
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/loginWithGoogle" element={<GoogleLoginComponent />} />
         <Route path="/contest" element={<ContestPage  />} />
         <Route path="/article" element={<ArticlePage />} />
       </Routes>
