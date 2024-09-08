@@ -21,7 +21,7 @@ const TopBar: React.FC = () => {
 
     useEffect(() => {
         if (!IsLoggedIn()) {
-            navigate('/login');  // Redirect to the login page if not logged in
+            window.location.href = '/loginWithGoogle';  // Redirect to the login page if not logged in
         } else {
             // Get profile information.
             GetProfile().then((res) => {
@@ -50,7 +50,7 @@ const TopBar: React.FC = () => {
         // Implement logout functionality here
         Logout();
         handleMenuClose();
-        navigate('/login');
+        window.location.href = '/loginWithGoogle';
     };
 
     return (

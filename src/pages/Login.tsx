@@ -92,7 +92,7 @@ function LoginPage() {
                 Login
                 </Button>
             </Box>
-    </Container>
+        </Container>
     );
 }
 

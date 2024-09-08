@@ -82,6 +82,49 @@ export class LoginClient {
     this.methodDescriptorLogin);
   }
 
+  methodDescriptorLoginWithGoogle = new grpcWeb.MethodDescriptor(
+    '/login.Login/LoginWithGoogle',
+    grpcWeb.MethodType.UNARY,
+    login_pb.GoogleLoginRequest,
+    login_pb.AuthResponse,
+    (request: login_pb.GoogleLoginRequest) => {
+      return request.serializeBinary();
+    },
+    login_pb.AuthResponse.deserializeBinary
+  );
+
+  loginWithGoogle(
+    request: login_pb.GoogleLoginRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<login_pb.AuthResponse>;
+
+  loginWithGoogle(
+    request: login_pb.GoogleLoginRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: login_pb.AuthResponse) => void): grpcWeb.ClientReadableStream<login_pb.AuthResponse>;
+
+  loginWithGoogle(
+    request: login_pb.GoogleLoginRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: login_pb.AuthResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/login.Login/LoginWithGoogle',
+        request,
+        metadata || {},
+        this.methodDescriptorLoginWithGoogle,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/login.Login/LoginWithGoogle',
+    request,
+    metadata || {},
+    this.methodDescriptorLoginWithGoogle);
+  }
+
   methodDescriptorSignUp = new grpcWeb.MethodDescriptor(
     '/login.Login/SignUp',
     grpcWeb.MethodType.UNARY,

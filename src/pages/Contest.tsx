@@ -24,7 +24,7 @@ function ContestPage() {
     const navigate = useNavigate();
     useEffect(() => {
         if (!IsLoggedIn()) {
-            navigate('/login');  // Redirect to the login page if not logged in
+            window.location.href = '/loginWithGoogle';  // Redirect to the login page if not logged in
         }
     }, [navigate]);
 

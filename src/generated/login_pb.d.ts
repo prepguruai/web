@@ -68,3 +68,21 @@ export namespace SignUpRequest {
   }
 }
 
+export class GoogleLoginRequest extends jspb.Message {
+  getIdToken(): string;
+  setIdToken(value: string): GoogleLoginRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GoogleLoginRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GoogleLoginRequest): GoogleLoginRequest.AsObject;
+  static serializeBinaryToWriter(message: GoogleLoginRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GoogleLoginRequest;
+  static deserializeBinaryFromReader(message: GoogleLoginRequest, reader: jspb.BinaryReader): GoogleLoginRequest;
+}
+
+export namespace GoogleLoginRequest {
+  export type AsObject = {
+    idToken: string,
+  }
+}
+
